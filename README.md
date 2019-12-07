@@ -1,4 +1,4 @@
-# loyalty 
+# loyalty platform
 It's a Web Platform through which telecom company can check the loyalty of various plans.
 
 Input  :  It takes various plans such as movie vouchers,food vouchers, sms packs, net packs
