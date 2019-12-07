@@ -1,0 +1,122 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Loyalty</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/mdb.min.css' %}">
+	<style type="text/css">
+		a{ color : white; }
+	
+		::placeholder {
+		  color: rgb(0,0,0);
+		}
+</style>
+</head>
+<body>
+	<header>
+		<!--Navbar-->
+		<nav class="navbar navbar-expand-lg #000000 black" style="color: #fff;">
+
+		  <!-- Navbar brand -->
+		  <a class="navbar-brand" href="#">Loyalty Checker</a>
+
+		  <!-- Collapse button -->
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+		    aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <!-- Collapsible content -->
+		  <div class="collapse navbar-collapse" id="basicExampleNav">
+
+		    <!-- Links -->
+		    <ul class="navbar-nav mr-auto">
+		    </ul>
+		    <!-- Links -->
+
+		    <form class="form-inline">
+		      <div class="md-form my-0">
+		        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+		      </div>
+		    </form>
+		  </div>
+		  <!-- Collapsible content -->
+
+		</nav>
+		<!--/.Navbar-->
+	</header>
+	<main>
+		<div class="jumbotron card card-image" style="background-image: url('{% static 'mainapp/images/bg1.jpg' %}');background-size:cover;background-repeat:no-repeat;background-position: center center;height:883px;margin-bottom: 0px;">
+			<div class="row" style="height: 100%;">
+				<div class="col-md-8">
+					<div class="col-md-12">
+						<form class="col-md-3 mt-5">
+							{% csrf_token %}
+							<!-- Default input -->
+							<h4><label class="text-white" for="profilecode">Enter the profile code</label></h4>
+							<input id="profilecode" onchange="plot(this.value)" class="form-control ml-1" type="text" placeholder="Enter the profile code" style="background: transparent;color:#fff;">
+						</form>
+					</div>
+					<div class="col-md-12" style="height:94%;">
+						<div class="text-white text-center py-5 px-4" style="height: 100%;">
+						    <iframe id="plotmap" style="height: 100%;width: 100%;" src=""></iframe>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="col-md-12">
+						<form class="col-md-9 mt-5">
+							{% csrf_token %}
+							<h4><label class="text-white" for="incentives">Enter the profile code with incentives</label></h4>
+							<input id="incentives" onchange="plotnums(this.value)" class="form-control ml-1" type="text" placeholder="Enter the profile code with incentives" style="background: transparent;color: #fff;">
+						</form>
+					</div>
+					<div class="col-md-12" style="height:94%;">
+						<div class="text-white text-center py-5 px-4" style="height: 100%;">
+						    <iframe id="plotnum" style="height: 100%;width: 100%;" src=""></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer>
+		
+	</footer>
+</body>
+<script type="text/javascript" src="{% static 'mainapp/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'mainapp/js/popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'mainapp/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'mainapp/js/mdb.min.js' %}"></script>
+<script type="text/javascript">
+	function plot(val) {
+
+		$.ajax({
+	        type : 'POST',
+	        url : '/home/plot/',
+	        data : {
+	            val : val,
+	            csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val(),
+	        },
+	        success : function(data) {
+	        	document.getElementById('plotmap').src = "/home/plotpage/";
+	        }
+	    });
+	}
+	function plotnums(str) {
+
+		$.ajax({
+	        type : 'POST',
+	        url : '/home/plotnums/',
+	        data : {
+	            str : str,
+	            csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val(),
+	        },
+	        success : function(data) {
+	        	document.getElementById('plotnum').src = "/home/plotpage2/";
+	        }
+	    });
+	}
+</script>
+</html>
